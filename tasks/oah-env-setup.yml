@@ -1,0 +1,12 @@
+---
+- debug:
+    msg: "oah-env-setup to setup the required user and env variables."
+
+- name: Check if greoup exists
+  ansible.builtin.group:
+    name: admin
+    state: present
+  register: output
+
+- name: Add the user 'vagrant' with a specific uid and a primary group of 'admin'
+  user: name=vagrant password=vagrant comment="vagrant user" group=root

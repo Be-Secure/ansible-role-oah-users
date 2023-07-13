@@ -1,0 +1,33 @@
+---
+- debug:
+    msg: "oah-validate of oah.users"
+# validate if oah user created
+- name: Get user details
+  getent:
+    database: passwd
+
+      #- name: show users
+      #  debug:
+      #    msg: "{{ item }}"
+      #  loop: "{{ getent_passwd.keys() | list }} "
+
+- name: check if oah_user Iuser exists
+  assert:
+    that:
+      - oah_user in getent_passwd.keys()
+    fail_msg: "user not found"
+    success_msg: "user found"
+
+- name: check if vagrant user exists
+  assert:
+    that:
+      - oah_vagrant_user in getent_passwd.keys()
+    fail_msg: "user not found"
+    success_msg: "user found"
+
+- name: check if oah_env_user user exists
+  assert:
+    that:
+      - oah_env_user in getent_passwd.keys()
+    fail_msg: "user not found"
+    success_msg: "user found"
