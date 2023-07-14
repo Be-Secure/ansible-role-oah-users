@@ -2,19 +2,19 @@
 - include: tasks/oah-env-setup.yml
   when: oah_command == "env_setup"
 
-- include: tasks/oah-create-user.yml
-  when: oah_command == "create_user"
+- include: tasks/oah-install.yml
+  when: oah_command == "install"
 
-- include: tasks/oah-update-user.yml
-  when: oah_command == "update_user"
+- include: tasks/oah-update.yml
+  when: oah_command == "update"
 
-- include: tasks/oah-remove-user.yml
-  when: oah_command == "remove_user"
+- include: tasks/oah-remove.yml
+  when: oah_command == "remove"
 
-- include: tasks/oah-reset-user.yml
-  when: oah_command == "reset_user"
+- include: tasks/oah-reset.yml
+  when: oah_command == "reset"
 
-- include: tasks/oah-validate-user.yml
-  when: oah_command == "validate_user"
+- include: tasks/oah-validate.yml
+  when: oah_command == "validate"
 
 #- include: tasks/oah-{{ oah_command }}.yml
