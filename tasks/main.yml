@@ -1,17 +1,20 @@
 ---
+- include: tasks/oah-env-setup.yml
+  when: command == "env_setup"
+
 - include: tasks/oah-install.yml
-  when: oah_command == "install"
+  when: command == "install"
 
 - include: tasks/oah-update.yml
-  when: oah_command == "update"
+  when: command == "update"
 
 - include: tasks/oah-remove.yml
-  when: oah_command == "remove"
+  when: command == "remove"
 
 - include: tasks/oah-reset.yml
-  when: oah_command == "reset"
+  when: command == "reset"
 
 - include: tasks/oah-validate.yml
-  when: oah_command == "validate"
+  when: command == "validate"
 
 #- include: tasks/oah-{{ oah_command }}.yml

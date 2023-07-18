@@ -1,12 +1,17 @@
 ---
 - debug:
-    msg: "oah-remove of oah.users"
-#remove oah user and
+    msg: "remove-users"
 
-#remove oah env user
+# remove oah-user
+- name: check and add oah user if OAH_USER env variable set or user ansible variable is set
+  user: 
+    name: "{{user}}" 
+    state: absent
+  become: true
 
-# remove ssh key for github if remove oah_enable_github_key is false
-
-# remove ssh key for gitlab if remove oah_enable_gitlab_key is false
-
-# display users created if verbose option enabled
+#remove the user group
+- name: Remove user supplied group if exists
+  ansible.builtin.group:
+    name: "{{ user_group }}"
+    state: absent
+  become: true

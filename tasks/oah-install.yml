@@ -1,21 +1,31 @@
 ---
 - debug:
-    msg: "oah-install of oah.users"
-- name: Add the user 'vagrant' with a specific uid and a primary group of 'admin'
-  user: name=vagrant password=vagrant comment="vagrant user" group=admin
+    msg: "install of oah user and group"
 
+#create user groups admin or user defined
+- name: Create user supplied group if does not exists
+  ansible.builtin.group:
+    name: "{{ user_group }}"
+    state: present
+  become: true
 
-# check and add oah user if OAH_USER env variable set or oah_user ansible variable is set
+# Add oah user if OAH_USER env variable set or oah_user ansible variable is set
 - name: check and add oah user if OAH_USER env variable set or oah_user ansible variable is set
-  user: name={{oah_user}} password={{ oah_user_password }} group={{oah_user_group}}
-
-
-# check and add oah env user if OAH_ENV_USER env variable set or oah_env_user ansible variable is set
-- name: Add the user 'oahadmin' with a specific uid and a primary group of 'admin'
-  user: name={{oah_user}} password={{ oah_env_user_password }} group={{oah_user_group}}
-
-# check and add ssh key for github if  oah_enable_github_key is true and oah_env_user_github key is set
-
-# check and add ssh key for gitlab if  oah_enable_gitlab_key is true and oah_env_user_gitlab key is set
+  user: 
+    name: "{{ user}}" 
+    password: "{{ user_pwd }}"
+    group: "{{ user_group }}"
+    generate_ssh_key: true
+    state: present
+  register: user_details
+  when: (ansible_env.OAH_USER is not defined) or (user is defined)
+  become: true
+    #- debug: 
+    #var:  ansible_env.OAH_USER
 
 # display users created if verbose option enabled
+# 
+- name: display the user data
+  debug:
+    var: user_details
+  when: enable_verbose == true 
