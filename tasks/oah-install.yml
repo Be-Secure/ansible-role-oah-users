@@ -7,6 +7,7 @@
   ansible.builtin.group:
     name: "{{ oah_user_group }}"
     state: present
+  become: true
 
 # Add oah user if OAH_USER env variable set or oah_user ansible variable is set
 - name: check and add oah user if OAH_USER env variable set or oah_user ansible variable is set
@@ -18,7 +19,7 @@
     state: present
   register: user_details
   when: (ansible_env.OAH_USER is not defined) or (oah_user is defined)
-
+  become: true
     #- debug: 
     #var:  ansible_env.OAH_USER
 
