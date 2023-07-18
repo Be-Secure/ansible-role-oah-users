@@ -2,24 +2,10 @@
 - debug:
     msg: "oah-install of oah.users"
 
-#create user groups admin and user defined
-#if not present on system.
-- name: Create admin group if does not exists
-  ansible.builtin.group:
-    name: admin
-    state: present
+#create user groups admin or user defined
 - name: Create user supplied group if does not exists
   ansible.builtin.group:
     name: "{{ oah_user_group }}"
-    state: present
-
-# Add vagrant user under admin group
-- name: Add the user 'vagrant' with primary group as 'admin'
-  user: 
-    name: "{{ oah_vagrant_user }}"
-    password: "{{ oah_vagrant_user_pwd }}"  
-    comment: "vagrant user" 
-    group: "{{ oah_vagrant_user_group }}"
     state: present
 
 # Add oah user if OAH_USER env variable set or oah_user ansible variable is set
@@ -35,44 +21,6 @@
 
     #- debug: 
     #var:  ansible_env.OAH_USER
-
-
-# check and add oah env user if OAH_ENV_USER env variable set or oah_env_user ansible variable is set
-- name: Add the user oah env user
-  user: 
-    name: "{{oah_env_user}}"
-    password: "{{ oah_env_user_pwd }}" 
-    group: "{{oah_env_user_group}}"
-    state: present
-  register: env_user_details
-    #when: (ansible_env.OAH_ENV_USER is not defined) or (oah_env_user is defined)
-
-#- debug: 
-    #var:  ansible_env.OAH_ENV_USER
-
-# add key to gitlab for oah_user, if oah_enable_github_key is true
-- name: Add gitlab key for oah_user
-  gitlab_deploy_key:
-    api_url: "{{ oah_user_gitlab_url }}"
-    api_token: "{{ oah_user_gitlab_token }}"
-    key: "{{ user_details.ssh_public_key }}"
-    project: "{{ oah_user_gitlab_project }}"
-    state: present
-    title: "{{ oah_user_gitlab_title }}"
-  when: (oah_user_enable_gitlab_key == true)
-
-# check and add ssh key for gitlab if  oah_enable_github_key is true
-- name: Add github key for oah_user
-  github_deploy_key:
-    github_url: "{{ oah_user_github_url }}"
-    owner: "{{ oah_user_github_owner }}"
-    token: "{{ oah_user_github_token }}"
-    key: "{{ user_details.ssh_public_key }}"
-    repo: "{{ oah_user_github_repo }}"
-    read_only: "{{ oah_user_github_readonly }}"
-    state: present
-    name: "{{ oah_user_gitlab_title }}"
-  when: (oah_user_enable_github_key == true)
 
 # display users created if verbose option enabled
 # 
