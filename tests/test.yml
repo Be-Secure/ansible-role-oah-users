@@ -5,9 +5,9 @@
       #- name: "add user"
       #  include: roles/oah-users/main.yml
     roles:
-      - role: oah-users
+      - role: ansible-role-oah-users
         vars:
-            oah_command: validate_user
-            oah_user: test
-            oah_user_group: admin
-            oah_user_password: test
+            command: install
+            user: testuser
+            user_group: admin
+            user_password: admin
