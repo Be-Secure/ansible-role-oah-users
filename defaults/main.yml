@@ -4,7 +4,7 @@
 #
 #
 ## default command to be executed
-oah_command: install
+command: install
 
 ## enable verbose mode
 #
@@ -12,6 +12,6 @@ enable_verbose: false
 
 ## default values for oah_user
 #
-oah_user: oahadmin
-oah_user_group: admin
-oah_user_pwd: oahuser
+user: oahadmin
+user_group: admin
+user_pwd: oahuser

@@ -1,17 +1,17 @@
 ---
 - debug:
-    msg: "oah-remove-users of oah.users"
+    msg: "remove-users"
 
 # remove oah-user
-- name: check and add oah user if OAH_USER env variable set or oah_user ansible variable is set
+- name: check and add oah user if OAH_USER env variable set or user ansible variable is set
   user: 
-    name: "{{oah_user}}" 
+    name: "{{user}}" 
     state: absent
   become: true
 
 #remove the user group
-- name: Create user supplied group if does not exists
+- name: Remove user supplied group if exists
   ansible.builtin.group:
-    name: "{{ oah_user_group }}"
+    name: "{{ user_group }}"
     state: absent
   become: true
