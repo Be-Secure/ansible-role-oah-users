@@ -4,8 +4,10 @@
 
 # remove oah-user
 - name: check and add oah user if OAH_USER env variable set or user ansible variable is set
-  user: 
-    name: "{{user}}" 
+  user:
+    name: "{{user}}"
+    force: "{{ remove_forced }}"
+    remove: "{{ remove_home_dir_on_user_del }}"
     state: absent
   become: true
 

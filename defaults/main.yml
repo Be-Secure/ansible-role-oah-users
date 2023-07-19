@@ -4,14 +4,56 @@
 #
 #
 ## default command to be executed
-command: install
+#command: ''
 
 ## enable verbose mode
 #
 enable_verbose: false
 
-## default values for oah_user
+## default values for user
 #
-user: oahadmin
+user: admin
 user_group: admin
-user_pwd: oahuser
+user_pwd: admin
+# set this to true if want to create user as a system user.
+user_system: false
+
+
+#User Details for updatation
+#
+generate_ssh_key: true
+home_dir_needed: true
+# setting append_groups to false will remove
+# all other groups than mentioned in user_groups
+# variable below.
+append_groups: true
+# comma seprated list of groups.
+user_groups: ""
+# path to user home directory
+user_home_path: ""
+# move user home directory to the given path
+move_home_dir: true
+pwd_exp_max_days: 90
+pwd_exp_min_days: 7
+pwd_change_lock: false
+# sets seuser usertype if selinux is enabled.
+seuser_type: user_u
+# set to false if ssh login or shell not needed for the user
+shell_type: "/bin/bash"
+# name of ssh key file under /{user}/.ssh/id_rsa/ path
+ssh_key_file_name: id_rsa
+# set the ssh key phrase to set the ssh key
+ssh_key_phrase: ""
+# type of ssh key to generate
+ssh_key_type: rsa
+# specified user id
+user_uid: 0
+# umask for the new user
+user_umask: ""
+# set this to "on_create" if not to update password if diff on existing
+update_pwd: always
+
+# set this to true if remove the user forcefully.
+# only used when command=remove
+remove_forced: false
+remove_home_dir_on_user_del: true

@@ -1,11 +1,39 @@
 ---
 - debug:
     msg: "update of oah users"
-# update oah user name
 
+# Add oah user if OAH_USER env variable set or oah_user ansible variable is set
+- name: check and add oah user if OAH_USER env variable set or oah_user ansible variable is set
+  user:
+    name: "{{ user}}"
+    password: "{{ user_pwd }}"
+    append: "{{ append_groups }}"
+    groups: "{{ user_groups }}"
+    create_home: "{{ home_dir_needed }}"
+    generate_ssh_key: "{{ generate_ssh_key }}"
+    home: "{{ (home_dir_needed and (user_home_path | length > 0)) | ternary(user_home_path, omit) }}"
+    move_home: "{{ (home_dir_needed and (user_home_path | length > 0)) | ternary(true, omit) }}"
+    password_expire_max: "{{ pwd_exp_max_days }}"
+    password_expire_min: "{{ pwd_exp_min_days }}"
+    password_lock: "{{ pwd_change_lock }}"
+    seuser: "{{ seuser_type }}"
+    shell: "{{ shell_type }}"
+    ssh_key_file: "{{ (generate_ssh_key and (ssh_key_file_name != 'id_rsa' )) | ternary(ssh_key_file_name, omit)}}"
+    ssh_key_passphrase: "{{ (generate_ssh_key and (ssh_key_phrase | length > 0 )) | ternary(ssh_key_phrase, omit)}}"
+    ssh_key_type: "{{ ssh_key_type }}"
+    uid: "{{ (user_uid > 0) | ternary(user_uid, omit)}}"
+    umask: "{{ user_umask }}"
+    update_password: "{{ update_pwd }}"
+    state: present
+  register: user_details
+  when: (ansible_env.OAH_USER is not defined) or (user is defined)
+  become: true
+    #- debug: 
+    #var:  ansible_env.OAH_USER
 
-# check OAH_USER set
-
-# check oah env user data in oah data/users
-
-# display oah env user and oah user details
+# display users created if verbose option enabled
+# 
+- name: display the user data
+  debug:
+    var: user_details
+  when: enable_verbose == true

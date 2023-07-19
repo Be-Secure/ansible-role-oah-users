@@ -1,10 +1,12 @@
 ---
+- name: default command if not defined
+  set_fact:
+    command: "install"
+  when: command is not defined
+
 - include: tasks/oah-env-setup.yml
   when: command == "env_setup"
-
-- include: tasks/oah-install.yml
-  when: command == "install"
-
+  
 - include: tasks/oah-update.yml
   when: command == "update"
 
@@ -16,5 +18,8 @@
 
 - include: tasks/oah-validate.yml
   when: command == "validate"
+
+- include: tasks/oah-install.yml
+  when: command == "install"
 
 #- include: tasks/oah-{{ oah_command }}.yml

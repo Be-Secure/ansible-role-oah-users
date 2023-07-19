@@ -15,7 +15,7 @@
     name: "{{ user}}" 
     password: "{{ user_pwd }}"
     group: "{{ user_group }}"
-    generate_ssh_key: true
+    system: "{{ user_system }}"
     state: present
   register: user_details
   when: (ansible_env.OAH_USER is not defined) or (user is defined)
