@@ -1,6 +1,7 @@
 ---
 - debug:
     msg: "update of oah users"
+
 # Add oah user if OAH_USER env variable set or oah_user ansible variable is set
 - name: check and add oah user if OAH_USER env variable set or oah_user ansible variable is set
   user:
